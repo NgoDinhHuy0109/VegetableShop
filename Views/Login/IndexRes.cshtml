@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<main>
+    <!-- breadcrumb area start -->
+ 
+    <div class="login-register-wrapper section-padding">
+        <div class="container">
+            <div class="member-area-from-wrap">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="login-reg-form-wrap sign-up-form">
+                            <h4>Đăng ký</h4>
+                            <form asp-action="Res"
+                                  asp-controller="Login" method="post">
+                                <div class="single-input-item">
+                                    <input name="Fullname" type="text" placeholder="Tên" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input name="Address" type="text" placeholder="Địa chỉ" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input name="Phone" type="text" placeholder="Số điện thoại" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input name="Email" type="email" placeholder="Email" required />
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
+                                            <input name="Password" type="password" placeholder="Mật khẩu" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
+                                            <input type="password" placeholder="Xác nhận mật khẩu" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <div class="login-reg-form-meta">
+                                        <div class="remember-meta">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <button type="submit" name="res" value="res" class="btn btn-sqr">Đăng ký</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="scroll-top not-visible">
+    <i class="fa fa-angle-up"></i>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

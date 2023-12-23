@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+@model IEnumerable<Shop.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="shop.html">shop</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Order Details</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+    <!-- cart main wrapper start -->
+    <div class="cart-main-wrapper section-padding">
+        <div class="container">
+            <div class="section-bg-color">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- Cart Table Area -->
+                        <div class="cart-table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="pro-thumbnail">Thumbnail</th>
+                                        <th class="pro-title">Product</th>
+                                        <th class="pro-price">Price</th>
+                                        <th class="pro-quantity">Quantity</th>
+                                        <th class="pro-subtotal">Total</th>
+                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            @{
+                                                string[] arrListStr = item.Product.ProductImage.Split(' ');
+                                            }
+                                            <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="~/images/@arrListStr[0]" alt="Product" /></a></td>
+                                            <td class="pro-title"><a href="/Products/Details/@item.ProductId">@item.Product.ProductName</a></td>
+                                            <td class="pro-price"><span><input type="text" value="@item.Price" readonly id="price" /></span></td>
+                                            <td class="pro-quantity">
+                                                <div class="pro-quantity">
+                                                    <div class="">
+                                                        <input size="4" type="text" value="@item.Quantity">
+                                                    </div>
+                                                       
+
+                                                    </div>
+</td>
+                                            @{
+                                                var pricetotla = item.Quantity * item.Price;
+                                            }
+                                            <td class="pro-subtotal"><span>@pricetotla</span></td>
+                                           
+                                        </tr>
+                                     
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Cart Update Option -->
+                     
+                    </div>
+                </div>
+       
+            </div>
+        </div>
+    </div>
+    <!-- cart main wrapper end -->
+</main>
+<div class="offcanvas-minicart-wrapper">
+    <div class="minicart-inner">
+        <div class="offcanvas-overlay"></div>
+        <div class="minicart-inner-content">
+            <div class="minicart-close">
+                <i class="pe-7s-close"></i>
+            </div>
+            <div class="minicart-content-box">
+                <div class="minicart-item-wrapper">
+                    @{
+                        Double totlalprice = 0;
+                        IEnumerable<OrderDetail> orderderail = ViewData["orderdeatail"] as IEnumerable<OrderDetail>;
+                        if (orderderail == null)
+                        {
+                            <li class="minicart-item">
+
+                            </li>
+                        }
+                        else
+                        {
+                            @foreach (OrderDetail ord in orderderail)
+                            {
+                                totlalprice += Convert.ToDouble(ord.Price * ord.Quantity);
+                                <li class="minicart-item">
+                                    <div class="minicart-thumb">
+                                        @{
+                                            string[] arrListStr = ord.Product.ProductImage.Split(' ');
+                                        }
+                                        <a href="product-details.html">
+                                            <img src="~/images/@arrListStr[0]" alt="product">
+                                        </a>
+                                    </div>
+                                    <div class="minicart-content">
+                                        <h6 class="product-name">
+                                            <a href="/Products/Details/@ord.Product.Id">@ord.Product.ProductName</a>
+                                        </h6>
+                                        <p>
+                                            <span class="cart-quantity">@ord.Quantity<strong>&times;</strong></span>
+                                            <span class="cart-price">$@ord.Price</span>
+                                        </p>
+                                    </div>
+                                    <a href="/AddOrder/Delete/@ord.Id" class="minicart-remove"><i class="pe-7s-close"></i></a>
+                                </li>
+                            }
+                        }
+                    }
+                </div>
+
+                <div class="minicart-pricing-box">
+                    <ul>
+                        <li class="total">
+                            <span>total</span>
+                            <span><strong>$@totlalprice</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="minicart-button">
+                    <a href="/OrderDetails"><i class="fa fa-shopping-cart"></i> View Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

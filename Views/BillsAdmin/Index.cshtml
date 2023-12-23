@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Shop.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Order</h1>
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Voucher)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateAt)
+            </td>
+            <td>
+                @if (item.Status == 2)
+                {
+                    <h6>Chờ Xác Nhận</h6>
+                }
+                else if (item.Status == 3)
+                {
+                    <h6>Chờ Xác Nhận Giao Hàng</h6>
+                }
+                else if (item.Status == 4)
+                {
+                    <h6>Đang Giao Hàng</h6>
+                }
+                else if (item.Status == 5)
+                {
+                    <h6>Đã Giao</h6>
+                }
+                else if (item.Status == 6)
+                {
+                    <h6>Đã Hủy</h6>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voucher.Id)
+            </td>
+            <td>
+                @if (item.Status == 2)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Xác Nhận Đơn Hàng</a>
+                }
+                else if (item.Status == 3)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Xác Nhận Đang Giao Hàng</a>
+                }
+                else if (item.Status == 4)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Xác Nhận Đã Giao Hàng</a>
+                }
+
+                | <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                <a asp-action="DeleteConfirmed" asp-route-id="@item.Id">Hủy Đơn</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

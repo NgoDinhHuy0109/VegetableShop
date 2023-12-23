@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<main>
+    <!-- breadcrumb area start -->
+  
+    <div class="login-register-wrapper section-padding">
+        <div class="container">
+            <div class="member-area-from-wrap">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="login-reg-form-wrap">
+                            <h4>Đăng nhập</h4>
+                            <form class="user" asp-action="LoginAdmin"
+                                  asp-controller="Login" method="post">
+                                <div class="single-input-item">
+                                    <input name="Email" type="email" placeholder="Email hoặc tài khoản" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input name="Pass" type="password" placeholder="Mật khẩu" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
+                                        <div class="remember-meta">
+                                           
+                                        </div>
+                                        <a href="/Users/IndexForgotPassWord" class="forget-pwd">Quên mật khẩu</a>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <button type="submit" name="login" value="Login" class="btn btn-sqr">Đăng nhập</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="scroll-top not-visible">
+    <i class="fa fa-angle-up"></i>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

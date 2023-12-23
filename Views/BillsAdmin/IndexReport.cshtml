@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Shop.Models.Order>
+
+@{
+    ViewData["Title"] = "IndexReport";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<String> month = ViewData["month"] as List<String>;
+    String monthselect = ViewData["monthselect"] as String;
+    
+}
+
+<h1>IndexReport</h1>
+    <div class="col-lg-12" style="display : inline-block">
+        <form method="post" asp-controller="BillsAdmin" asp-action="ExprotToExcel">
+            <input hidden name="month" value="@monthselect" />
+            @if (String.IsNullOrEmpty(monthselect))
+            {
+                 <input type="submit" value="Xuất Excel" class="btn btn-primary" />
+            }
+            else
+            {
+                <input type="submit" value="Xuất Excel cho tháng @monthselect" class="btn btn-primary" />
+            }
+
+        </form>
+    </div>
+    <form method="post" asp-controller="BillsAdmin" asp-action="IndexReport" style="width : 110px">
+        <label>Tháng @monthselect</label>
+        <div class="form-group">
+            <select class="form-control" asp-items="@(new SelectList(month))" name="month"></select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+           
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Mã Order
+            </th>
+            <th>
+            Tổng Giá
+            </th>
+            <th>
+               Ngày
+            </th>
+            <th>
+              Ghi Chú
+            </th>
+            <th>
+               Người dùng
+            </th>
+            <th>
+              Mã giảm giá
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voucher.Id)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

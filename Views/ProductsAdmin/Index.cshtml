@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Shop.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Products</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+               Unit
+            </th>
+            <th>
+                Made in
+            </th>
+            <th>
+                Brand
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductQuantity)
+            </td>
+            <td>
+                @{
+                    string[] arrListStr = item.ProductImage.Split(" ");
+                    for (int i = 0; i < arrListStr.Length - 1; i++)
+                    {
+                        <img src="~/images/@arrListStr[i]"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OutPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductBrandNavigation.Tilte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductColorNavigation.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductSizeNavigation.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductTypeNavigation.Tilte)
+            </td>
+            <td>
+                @if (item.Status == 1)
+                {
+
+
+                    <span style="color:seagreen">is active</span>
+                }
+                else
+                {
+                    <span style="color:red">not active</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                @if (item.Status == 1)
+                {
+
+
+                    <a data-toggle="modal" data-target="#changeProductModal">Inactive</a>
+                }
+                else
+                {
+                    <a data-toggle="modal" data-target="#changeProductModal">Active</a>
+                }
+
+                <div class="modal fade" id="changeProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Change Status ?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Change</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,210 @@
+﻿@model IEnumerable<Shop.Models.Product>
+
+
+@{
+
+    ViewData["Title"] = "Index";
+    IEnumerable<Brand> Brand = ViewData["ProductBrand"] as IEnumerable<Brand>;
+    IEnumerable<Color> Color = ViewData["ProductColor"] as IEnumerable<Color>;
+    IEnumerable<Shop.Models.Type> Type = ViewData["ProductType"] as IEnumerable<Shop.Models.Type>;
+    IEnumerable<Size> Size = ViewData["ProductSize"] as IEnumerable<Size>;
+}
+<section class="main-container col2-left-layout bounceInUp animated">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-sm-push-3">
+                <div class="category-description std">
+                    <div class="slider-items-products">
+                        <div id="category-desc-slider" class="product-flexslider hidden-buttons">
+                            <div class="slider-items slider-width-col1 owl-carousel owl-theme">
+
+                                <!-- Item -->
+                                <div class="item">
+                                    <img alt="" src="./images/category-img1.jpg">
+                                    <div class="cat-img-title cat-bg cat-box">
+
+                                    </div>
+                                </div>
+                                <!-- End Item -->
+                                <!-- Item -->
+                                <div class="item">
+                                    <img alt="" src="~/images/category-img2.jpg">
+                                    <div class="cat-img-title cat-bg cat-box">
+                                    </div>
+                                    <!-- End Item -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <article class="col-main">
+                    <h2 class="page-heading"> <span class="page-heading-title">Sản phẩm</span> </h2>
+                    <div class="display-product-option">
+                        <div class="pager hidden-xs">
+                            <div class="pages">
+                                <ul class="pagination">
+                                    <li><a href="#">&laquo;</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&raquo;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-products">
+                        <ul class="products-grid">
+                            @foreach (var item in Model)
+                            {
+
+                                string[] arrListStr = item.ProductImage.Split(" ");
+
+                                <li class="item col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <div class="item-inner">
+                                        <div class="item-img">
+                                            <div class="item-img-info">
+                                                <a href="/Products/Details/@item.Id" title="@item.ProductName" class="product-image"><img src="~/images/@arrListStr[0]" alt="Retis lapen casen"></a>
+                                                <div class="box-hover">
+                                                    <ul class="add-to-links">
+
+                                                        <li><a asp-controller="AddOrder" asp-action="AddtoWishlist" asp-route-id="@item.Id" class="link-wishlist">Yêu thích</a> </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title"><a href="/Products/Details/@item.Id" title="Retis lapen casen">@item.ProductName</a> </div>
+                                                <div class="item-content">
+
+                                                    <div class="item-price">
+                                                        <div class="price-box"><span class="regular-price"><span class="price">@item.OutPrice</span> </span> </div>
+                                                    </div>
+                                                    <div class="action">
+                                                        <a asp-controller="AddOrder" asp-action="AddtoCart" asp-route-id="@item.Id" class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Thêm vào giỏ hàng</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </div>
+                    <div class="toolbar">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4">
+                                
+                            </div>
+                            <div class="col-lg-6 col-sm-7 col-md-5">
+                                <div class="pager">
+                                    <div class="pages">
+                                        <label>Trang:</label>
+                                        <ul class="pagination">
+                                            <li><a href="#">&laquo;</a></li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li><a href="#">&raquo;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 col-md-3">
+
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!--	///*///======    End article  ========= //*/// -->
+            </div>
+            <div class="col-left sidebar col-sm-3 col-xs-12 col-sm-pull-9">
+                <aside class="col-left sidebar">
+                    <div class="side-nav-categories">
+                        <div class="block-title"> Danh mục </div>
+                        <!--block-title-->
+                        <!-- BEGIN BOX-CATEGORY -->
+                        <div class="box-content box-category">
+                            <ul>
+
+                                @foreach (Shop.Models.Type type in Type)
+                                {
+                                    <li><a href="/Search/SearchByName/@type.Id type">@type.Tilte</a></li>
+                                }
+
+                            </ul>
+                        </div>
+                        <!--box-content box-category-->
+                    </div>
+                    <div class="hot-banner"><img alt="banner" src="./images/hot-trends-banner.jpg"></div>
+                    <div class="block block-layered-nav">
+                        <div class="block-title">Lọc</div>
+                        <div class="block-content">
+                            <p class="block-subtitle"></p>
+                            <dl id="narrow-by-list">
+                                <dt class="odd">Giá</dt>
+                                <dd class="odd">
+                                    <ol>
+                                        <div class="price-range-wrap">
+                                            @{
+                                                double min = Convert.ToDouble(ViewData["min"]);
+                                                double max = Convert.ToDouble(ViewData["max"]);
+                                            }
+                                            <div class="price-range " data-min="@min" data-max="@max"></div>
+                                            <div class="range-slider">
+                                                <form asp-action="SearchByName" asp-controller="Search" class="d-flex align-items-center justify-content-between">
+                                                    <div class="price">
+                                                        <input style="outline:hidden;border:none" readonly name="pricesearch" type="text" id="amount">
+                                                    </div>
+                                                    <button type="submit" class="filter-btn">Lọc</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </ol>
+                                </dd>
+                                <dt class="even">Đơn Vị Tính : </dt>
+                                <dd class="even">
+                                    <ol>
+                                        @foreach (Brand brand in Brand)
+                                        {
+                                            <li><a href="/Search/SearchByName/@brand.Id brand">@brand.Tilte</a></li>
+                                        }
+                                    </ol>
+                                </dd>
+                                <dt class="odd">Nhà Cung Cấp</dt>
+                                <dd class="odd">
+                                    <ol>
+                                        @foreach (Size size in Size)
+                                        {
+                                            <li><a href="/Search/SearchByName/@size.Id size">@size.Title</a></li>
+                                        }
+                                    </ol>
+                                </dd>
+                                <dt class="odd">Nước Cung Cấp</dt>
+                                <dd class="odd">
+                                    <ol>
+                                        @foreach (Color color in Color)
+                                        {
+                                            <li><a href="/Search/SearchByName/@color.Id color">@color.Title</a></li>
+                                        }
+                                    </ol>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,259 @@
+﻿@model IEnumerable<Shop.Models.Product>
+@{ var right_item = Model.First(); }
+@{ ViewData["Title"] = "Home Page"; }
+<div id="thm-slideshow" class="thm-slideshow">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div id='rev_slider_4_wrapper' class='rev_slider_wrapper fullwidthbanner-container'>
+                    <div id='rev_slider_4' class='rev_slider fullwidthabanner'>
+                        <ul>
+                            <li data-transition='random' data-slotamount='7' data-masterspeed='1000' data-thumb='images/slide-img1.jpg'>
+                                <img src='images/slide-img1.jpg' alt="slide-img" data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' />
+
+                            </li>
+                            <li data-transition='random' data-slotamount='7' data-masterspeed='1000' data-thumb='images/slide-img2.jpg'>
+                                <img src='images/slide-img2.jpg' alt="slide-img" data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' />
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 hot-deal">
+                <ul class="products-grid">
+
+                    <li class="right-space two-height item">
+                        <div class="item-inner">
+                            <div class="item-img">
+                                <div class="item-img-info">
+                                    @{ string[] arrImg_right = right_item.ProductImage.Split(" "); }
+                                    <a href="/Products/Details/@right_item.Id" title="Retis lapen casen" class="product-image"> <img src="~/images/@arrImg_right[0]" alt="Retis lapen casen"> </a>
+                                    <div class="hot-label hot-top-left">Hot</div>
+                                    <div class="box-hover">
+                                        <ul class="add-to-links">
+                                            <li><a asp-controller="AddOrder" asp-action="AddtoWishlist" asp-route-id="@right_item.Id" class="link-wishlist">Yêu thích</a> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-info">
+                                <div class="info-inner">
+                                    <div class="item-title"> <a href="/Products/Details/@right_item.Id" title="Retis lapen casen"> @right_item.ProductName </a> </div>
+                                    <div class="item-content">
+                                        <div class="item-price">
+                                            <div class="price-box"> <span class="regular-price"> <span class="price">@right_item.OutPrice</span> </span> </div>
+                                        </div>
+                                        <div class="action">
+                                            <a asp-controller="AddOrder" asp-action="AddtoCart" asp-route-id="@right_item.Id" class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Thêm vào giỏ hàng</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end Slider -->
+<!-- our features -->
+<div class="our-features-box">
+    <div class="container">
+        <ul>
+            <li>
+                <div class="feature-box need-help">
+                    <div class="icon-truck"></div>
+                    <div class="content">Freeship cho đơn từ 100.000đ</div>
+                </div>
+            </li>
+            <li>
+                <div class="feature-box free-shipping">
+                    <div class="icon-support"></div>
+                    <div class="content">+ 0800 567 345</div>
+                </div>
+            </li>
+            <li>
+                <div class="feature-box money-back">
+                    <div class="icon-money"></div>
+                    <div class="content">Hoàn tiền nếu sản phẩm lỗi</div>
+                </div>
+            </li>
+            <li class="last">
+                <div class="feature-box return-policy">
+                    <div class="icon-return"></div>
+                    <div class="content">Đổi trả hàng trong 2 ngày</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="content-page">
+    <div class="container">
+        <!-- featured category fashion -->
+        <div class="category-product">
+            <div class="navbar nav-menu">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <div class="new_title">
+                                <h2>Sản phẩm mới</h2>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+            </div>
+            <div class="product-bestseller">
+                <div class="product-bestseller-content">
+                    <div class="product-bestseller-list">
+                        <div class="tab-container">
+                            <!-- tab product -->
+                            <div class="tab-panel active" id="tab-1">
+                                <div class="category-products">
+                                    <ul class="products-grid">
+                                        @foreach (var item in Model.Reverse().Take(4))
+                                        {
+                                            string[] arrListStr = item.ProductImage.Split(" ");
+                            <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                <div class="item-inner">
+                                    <div class="item-img">
+                                        <div class="item-img-info">
+                                            <a class="product-image" title="@item.ProductName" href="/Products/Details/@item.Id"> <img alt="Retis lapen casen" src="~/images/@arrListStr[0]"> </a>
+                                        </div>
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="info-inner">
+                                            <div class="item-title"> <a title="Retis lapen casen" href="/Products/Details/@item.Id"> @item.ProductName </a> </div>
+                                            <div class="item-content">
+
+                                                <div class="item-price">
+                                                    <div class="price-box"> <span class="regular-price"> <span class="price">@item.OutPrice</span> </span> </div>
+                                                </div>
+                                                <div class="action">
+                                                    <a asp-controller="AddOrder" asp-action="AddtoCart" asp-route-id="@item.Id" class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Thêm vào giỏ hàng</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- bestsell Slider -->
+<section class="bestsell-pro">
+    <div class="container">
+        <div class="slider-items-products">
+            <div class="bestsell-block">
+                <div id="bestsell-slider" class="product-flexslider hidden-buttons">
+                    <div class="home-block-inner">
+                        <div class="block-title">
+                            <h2>Best Sellers </h2>
+                        </div>
+                        <div class="pretext">
+                            <img alt="Retis lapen casen" src="images/offer-banner.jpg">
+                        </div>
+
+                    </div>
+                    <div class="slider-items slider-width-col4 products-grid block-content">
+                        @foreach (var item in Model.Take(4))
+                        {
+                            string[] arrListStr = item.ProductImage.Split(" ");
+            <div class="item">
+                <div class="item-inner">
+                    <div class="item-img">
+                        <div class="item-img-info">
+                            <a class="product-image" title="Retis lapen casen" href="/Products/Details/@item.Id"> <img alt="Retis lapen casen" src="~/images/@arrListStr[0]"> </a>
+
+                            <div class="box-hover">
+                                <ul class="add-to-links">
+                                    <li><a asp-controller="AddOrder" asp-action="AddtoWishlist" asp-route-id="@item.Id" class="link-wishlist">Yêu thích</a> </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <div class="info-inner">
+                            <div class="item-title"> <a title="Retis lapen casen" href="/Products/Details/@item.Id"> @item.ProductName </a> </div>
+
+                            <div class="item-content">
+                                <div class="item-price">
+                                    <div class="price-box"> <span class="regular-price"> <span class="price"> @item.OutPrice </span> </span> </div>
+                                </div>
+                                <div class="action">
+                                    <a asp-controller="AddOrder" asp-action="AddtoCart" asp-route-id="@item.Id" class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Thêm vào giỏ hàng</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Bestsell Slider -->
+<!-- bottom banner section -->
+<!-- Latest Blog -->
+<!-- End Latest Blog -->
+<!-- Brand Logo -->
+
+<div class="brand-logo">
+    <div class="container">
+        <div class="slider-items-products">
+            <div id="brand-logo-slider" class="product-flexslider hidden-buttons">
+                <div class="slider-items slider-width-col6">
+
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo1.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo3.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo2.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo4.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo5.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo6.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo2.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+                    <!-- Item -->
+                    <div class="item"> <a href="#"><img src="images/b-logo4.png" alt="Image"> </a> </div>
+                    <!-- End Item -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->

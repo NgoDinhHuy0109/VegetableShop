@@ -1,0 +1,475 @@
+﻿@model Shop.Models.User
+<!-- Start Header Area -->
+<!-- end Header Area -->
+<style>
+    @@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+    body {
+        background-color: #eeeeee;
+        font-family: 'Open Sans',serif
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-bottom: 50px
+    }
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.10rem
+    }
+
+    .card-header:first-child {
+        border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+    }
+
+    .track {
+        position: relative;
+        background-color: #ddd;
+        height: 7px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 60px;
+        margin-top: 50px
+    }
+
+        .track .step {
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            width: 25%;
+            margin-top: -18px;
+            text-align: center;
+            position: relative
+        }
+
+            .track .step.active:before {
+                background: #FF5722
+            }
+
+            .track .step::before {
+                height: 7px;
+                position: absolute;
+                content: "";
+                width: 100%;
+                left: 0;
+                top: 18px
+            }
+
+            .track .step.active .icon {
+                background: #ee5435;
+                color: #fff
+            }
+
+        .track .icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            position: relative;
+            border-radius: 100%;
+            background: #ddd
+        }
+
+        .track .step.active .text {
+            font-weight: 400;
+            color: #000
+        }
+
+        .track .text {
+            display: block;
+            margin-top: 7px
+        }
+
+    .itemside {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%
+    }
+
+        .itemside .aside {
+            position: relative;
+            -ms-flex-negative: 0;
+            flex-shrink: 0
+        }
+
+    .img-sm {
+        width: 80px;
+        height: 80px;
+        padding: 7px
+    }
+
+    ul.row, ul.row-sm {
+        list-style: none;
+        padding: 0
+    }
+
+    .itemside .info {
+        padding-left: 15px;
+        padding-right: 7px
+    }
+
+    .itemside .title {
+        display: block;
+        margin-bottom: 5px;
+        color: #212529
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem
+    }
+
+    .btn-warning {
+        color: #ffffff;
+        background-color: #ee5435;
+        border-color: #ee5435;
+        border-radius: 1px
+    }
+
+        .btn-warning:hover {
+            color: #ffffff;
+            background-color: #ff2b00;
+            border-color: #ff2b00;
+            border-radius: 1px
+        }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+<main class="container" style="font-size: 1.5rem; margin-top: -50px">
+    <!-- my account wrapper start -->
+    <!-- My Account Tab Menu Start -->
+    <div class="row">
+        <div class="col-4" style="padding-top: 15px">
+            <div class="myaccount-tab-menu nav" role="tablist">
+                <a href="#orders" data-toggle="tab" class="active">
+                    <i class="fa fa-cart-arrow-down"></i>
+                    Hóa đơn
+                </a>
+                <a href="#account-info" data-toggle="tab">
+                    <i class="fa fa-user"></i> Chi tiết tài khoản
+                </a>
+                <a href="#address-edit" data-toggle="tab">
+                    <i class="fa fa-map-marker"></i>
+                    Đổi mật khẩu
+                </a>
+                <a asp-action="Logout" asp-controller="Login"><i class="fa fa-sign-out"></i>Đăng xuất</a>
+            </div>
+        </div>
+        <!-- My Account Tab Menu End -->
+        <!-- My Account Tab Content Start -->
+        <div class="col-8">
+            <div class="tab-content" id="myaccountContent">
+                <div class="tab-pane fade" id="" role="tabpanel">
+                    @{ IEnumerable<Order> orders = ViewData["ViewOrders"] as IEnumerable<Order>; }
+                    <div class="myaccount-content">
+                        <h5>Orders</h5>
+                        <div class="myaccount-table table-responsive text-center">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Order ID
+                                        </th>
+                                        <th>
+                                            Total Price
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                            Voucher
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Order order in orders)
+                                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.TotalPrice.ToString("0.##")</td>
+                            <td>@order.CreateAt</td>
+                            <td>
+                                @switch (order.Status)
+                                {
+                                    case 2:
+                <span>Chờ xác nhận</span> break;
+            case 3:
+<span>Đã xác nhận</span> break;
+case 4:
+<span>Đang giao hàng</span> break;
+case 5:
+<span>Đã giao hàng</span>break;
+}
+                            </td>
+                            @if (order.VoucherId == null)
+                            {
+            <td></td> }
+                            else
+                            {
+            <td>@order.Voucher.VoucherCode</td>}
+
+                            <td><a href="/Orders/Details/@order.Id">Details</a></td>
+                        </tr>}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="account-info" role="tabpanel">
+                    <div class="myaccount-content">
+                        <h5>Thông tin chi tiết</h5>
+                        <div class="account-details-form">
+                            <form asp-action="Edit">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <fieldset>
+                                    <div class="single-input-item">
+                                        <label asp-for="Email" class="control-label"></label>
+                                        <input readonly asp-for="Email" class="single-input-item" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="single-input-item">
+                                        <label asp-for="Fullname" class="control-label"></label>
+                                        <input asp-for="Fullname" class="single-input-item" />
+                                        <span asp-validation-for="Fullname" class="text-danger"></span>
+                                    </div>
+                                    <div class="single-input-item">
+                                        <label asp-for="Phone" class="control-label"></label>
+                                        <input asp-for="Phone" class="single-input-item" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
+                                    <div class="single-input-item">
+                                        <label asp-for="Address" class="control-label"></label>
+                                        <input asp-for="Address" class="single-input-item" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group" hidden>
+                                        <label asp-for="Password" class="control-label"></label>
+                                        <input asp-for="Password" class="single-input-item" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group" hidden>
+                                        <label asp-for="RoleId" class="control-label"></label>
+                                        <input asp-for="RoleId" class="form-control" />
+                                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                                    </div>
+                                    <div class="single-input-item">
+                                        <button type="submit" class="btn btn-sqr">Lưu</button>
+                                    </div>
+                                </fieldset>
+                              
+
+                            </form>
+                        </div>
+                    </div> <!-- Single Tab Content End -->
+                </div>
+
+                <!-- Single Tab Content Start -->
+                <div class="tab-pane fade show active" id="orders" role="tabpanel">
+                    <div class="myaccount-content">
+                        @foreach (Order order in orders.OrderByDescending(x => x.CreateAt).Take(5))
+                        {
+                            int status = Convert.ToInt32(order.Status);
+            <ul class="progressbar">
+                Order Id : @order.OrderId <a class="btn btn-danger" href="/Orders/Delete/@order.Id\">Hủy</a>
+                @switch (status)
+                {
+                    case 2:
+<div class="track">
+    <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Chờ xác nhận</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã xác nhận</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đang giao hàng</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-archive"></i> </span> <span class="text">Đã giao hàng</span> </div>
+    
+</div>
+ break;
+case 3:
+<div class="track">
+    <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Chờ xác nhận</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã xác nhận</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đang giao hàng</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-archive"></i> </span> <span class="text">Đã giao hàng</span> </div>
+</div>
+ break;
+case 4:
+<div class="track">
+    <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Chờ xác nhận</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã xác nhận</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đang giao hàng</span> </div>
+    <div class="step"> <span class="icon"> <i class="fa fa-archive"></i> </span> <span class="text">Đã giao hàng</span> </div>
+</div>
+ break;
+case 5:
+<div class="track">
+    <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Chờ xác nhận</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Đã xác nhận</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">Đang giao hàng</span> </div>
+    <div class="step active"> <span class="icon"> <i class="fa fa-archive"></i> </span> <span class="text">Đã giao hàng</span> </div>
+</div>
+break;
+case 6:
+            <div class="track">
+                <div class="step active">  <span class="icon">  <i class="fa fa-remove"></i>  </span>  <span class="text">Đã Hủy</span>  </div>
+            </div>       
+break;
+default:
+break;
+}
+            </ul>}
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="address-edit" role="tabpanel">
+                    <div class="myaccount-content">
+                        <div class="account-details-form">
+                            <form asp-action="Updatepassword"
+                                  asp-controller="Users" method="post">
+                                <fieldset>
+                                    <legend>Thay Đổi Mật Khẩu</legend>
+                                    <div class="single-input-item">
+                                        <label for="current-pwd" class="required">
+                                            Mật Khẩu Hiện Tại
+                                        </label>
+                                        <input name="current-password" type="password" id="current-pwd" placeholder="Current Password" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                                <label for="new-pwd" class="required">
+                                                    Mật Khẩu Mới
+                                                </label>
+                                                <input name="newpassword" type="password" id="new-pwd" placeholder="New Password" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                                <label for="confirm-pwd" class="required">
+                                                    Xác Nhận Mật Khẩu
+                                                </label>
+                                                <input name="confirm-pwd" type="password" id="confirm-pwd" placeholder="Confirm Password" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </fieldset>
+                                <div class="single-input-item">
+                                    <button type="submit" class="btn btn-sqr">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- My Account Tab Content End -->
+        </div>
+    </div>
+    <!-- My Account Page End -->
+    <!-- Scroll to top start -->
+    <div class="scroll-top not-visible">
+        <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="offcanvas-minicart-wrapper">
+        <div class="minicart-inner">
+            <div class="offcanvas-overlay"></div>
+            <div class="minicart-inner-content">
+                <div class="minicart-close">
+                    <i class="pe-7s-close"></i>
+                </div>
+                <div class="minicart-content-box">
+                    <div class="minicart-item-wrapper">
+                        @{ Double totlalprice = 0;
+                            IEnumerable<OrderDetail> orderderail = ViewData["orderdeatail"] as IEnumerable<OrderDetail>;
+                            if (orderderail == null)
+                            {
+                <li class="minicart-item"></li> }
+                            else
+                            {
+                @foreach (OrderDetail ord in orderderail)
+                {
+                    totlalprice += Convert.ToDouble(ord.Price * ord.Quantity);
+<li class="minicart-item">
+    <div class="minicart-thumb">
+        @{ string[] arrListStr = ord.Product.ProductImage.Split(' '); }
+        <a href="product-details.html">
+            <img src="https://localhost:44347/images/@arrListStr[0]" alt="product">
+        </a>
+    </div>
+    <div class="minicart-content">
+        <h6 class="product-name">
+            <a href="/Products/Details/@ord.Product.Id">@ord.Product.ProductName</a>
+        </h6>
+        <p>
+            <span class="cart-quantity">@ord.Quantity<strong>&times;</strong></span>
+            <span class="cart-price">$@ord.Price</span>
+        </p>
+    </div>
+    <a href="/AddOrder/Delete/@ord.Id" class="minicart-remove"><i class="pe-7s-close"></i></a>
+</li>} } }
+                    </div>
+
+                    <div class="minicart-pricing-box">
+                        <ul>
+                            <li class="total">
+                                <span>total</span>
+                                <span><strong>$@totlalprice</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="minicart-button">
+                        <a href="/OrderDetails"><i class="fa fa-shopping-cart"></i> View Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<!-- offcanvas mini cart end -->
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+<script src="~/old/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+<!-- jQuery JS -->
+<script src="~/old/assets/js/vendor/jquery-3.3.1.min.js"></script>
+<!-- Popper JS -->
+<script src="~/old/assets/js/vendor/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="~/old/assets/js/vendor/bootstrap.min.js"></script>
+<!-- slick Slider JS -->
+<script src="~/old/assets/js/plugins/slick.min.js"></script>
+<!-- Nice Select JS -->
+<script src="~/old/assets/js/plugins/nice-select.min.js"></script>
+<!-- jquery UI JS -->
+<script src="~/old/assets/js/plugins/jqueryui.min.js"></script>
+<!-- Image zoom JS -->
+<!-- mailchimp active js -->
+<script src="~/old/assets/js/plugins/ajaxchimp.js"></script>
+<!-- Main JS -->
+<script src="~/old/assets/js/main.js"></script>

@@ -1,0 +1,243 @@
+﻿@model IEnumerable<Shop.Models.OrderDetail>
+
+@{ ViewData["Title"] = "Index"; }
+
+<main>
+
+    <!-- breadcrumb area end -->
+    <!-- cart main wrapper start -->
+    <div class="cart-main-wrapper section-padding">
+        <div class="container">
+            <div class="section-bg-color">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- Cart Table Area -->
+                        <div class="cart-table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="pro-thumbnail">Ảnh</th>
+                                        <th class="pro-title">Tên sản phẩm</th>
+                                        <th class="pro-price">Giá</th>
+                                        <th class="pro-quantity">Số lượng</th>
+                                        <th class="pro-subtotal">Tổng tiền</th>
+                                        <th class="pro-remove">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                        <tr>
+                            @{ string[] arrListStr = item.Product.ProductImage.Split(' '); }
+                            <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="~/images/@arrListStr[0]" alt="Product" /></a></td>
+                            <td class="pro-title"><a href="#">@item.Product.ProductName</a></td>
+                            <td class="pro-price"><span><input type="text" value="@item.Price" readonly id="price" /></span></td>
+                            <td class="pro-quantity">
+                                <div class="">
+
+
+                                    <a asp-controller="AddOrder" asp-action="SubQuantity" asp-route-id="@item.Id"><h3>-</h3></a>
+                                    <input type="text" style="text-align:center" value="@item.Quantity" width="60" height="80">
+                                    <a asp-controller="AddOrder" asp-action="AddQuantity" asp-route-id="@item.Id"><h4>+</h4></a>
+
+                                </div>
+
+                            </td>
+                            @{ var pricetotla = item.Quantity * item.Price; }
+                            <td class="pro-subtotal"><span>@pricetotla</span></td>
+                            <td class="pro-remove"><a href="/AddOrder/Delete/@item.Id"><i class="fa fa-trash-o"></i></a></td>
+                        </tr>
+                                        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Xóa sản phẩm khỏi giỏ hàng?</h5>
+                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                        <a href="/AddOrder/Delete/@item.Id" class="btn btn-danger">Xóa</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Cart Update Option -->
+                        <div class="cart-update-option d-block d-md-flex justify-content-between">
+                            <div class="apply-coupon-wrapper">
+                                <form asp-action="Voucher"
+                                      asp-controller="AddOrder" method="post" class=" d-block d-md-flex">
+                                    <input name="vouchercode" type="text" placeholder="Nhập mã giảm giá" required />
+                                    <button type="submit" class="btn btn-sqr">Áp dụng mã</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 ml-auto">
+                        <!-- Cart Calculation Area -->
+                        <div class="cart-calculator-wrapper">
+                            <div class="cart-calculate-items">
+                                @{ double total = 0;
+                                                double sale = 0;
+                                                String vouchercode = ""; }
+
+                                @foreach (var item in Model)
+                                {
+                                    total += Convert.ToDouble(item.Quantity * item.Price);
+                                    IEnumerable<Voucher> voucher = ViewData["Voucher"] as IEnumerable<Voucher>;
+                                    if (item.Order.Voucher != null)
+                                    {
+                                        foreach (Voucher voucher1 in voucher)
+                                        {
+                                            if (item.Order.VoucherId.Equals(voucher1.Id))
+                                            {
+                                                sale = Convert.ToDouble(voucher1.VoucherDiscount);
+                                                vouchercode = voucher1.VoucherCode.ToString();
+                                            }
+                                        }
+                                    }
+                                }
+                                <h6>Tổng tiền ban đầu : @total</h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            @{ var subtotal = total * sale / 100; }
+                                            <td>Giảm</td>
+                                            <td>$@subtotal</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mã giảm giá</td>
+                                            <td>@vouchercode</td>
+                                        </tr>
+                                        <tr class="total">
+                                            <td>Tổng tiền</td>
+                                            @{ double finaltotal = total - subtotal; }
+                                            <td class="total-amount">$@finaltotal.ToString("0.##")</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <a asp-controller="AddOrder" asp-action="Indexcheckout" class="btn btn-sqr d-block">Tiến hành thanh toán</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cart main wrapper end -->
+</main>
+
+<!-- Scroll to top start -->
+<div class="scroll-top not-visible">
+    <i class="fa fa-angle-up"></i>
+</div>
+<!-- Scroll to Top End -->
+<!-- footer area start -->
+<!-- footer area end -->
+<!-- Quick view modal start -->
+<div class="modal" id="quick_view">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- product details inner end -->
+                <div class="product-details-inner">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="product-large-slider">
+                                <div class="pro-large-img img-zoom">
+                                    <img src="~/images/product-details-img1.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-large-img img-zoom">
+                                    <img src="~/images/product-details-img2.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-large-img img-zoom">
+                                    <img src="~/images/product-details-img3.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-large-img img-zoom">
+                                    <img src="~/images/product-details-img4.jpg" alt="product-details" />
+                                </div>
+                            </div>
+                            <div class="pro-nav slick-row-10 slick-arrow-style">
+                                <div class="pro-nav-thumb">
+                                    <img src="~/images/product-details-img1.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="~/images/product-details-img2.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="~/images/product-details-img3.jpg" alt="product-details" />
+                                </div>
+                                <div class="pro-nav-thumb">
+                                    <img src="~/images/product-details-img4.jpg" alt="product-details" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="product-details-des">
+                                <h3 class="product-name">Handmade Leather Bags Full Package</h3>
+                                <div class="ratings d-flex">
+                                    <span><i class="fa fa-star-o"></i></span>
+                                    <span><i class="fa fa-star-o"></i></span>
+                                    <span><i class="fa fa-star-o"></i></span>
+                                    <span><i class="fa fa-star-o"></i></span>
+                                    <span><i class="fa fa-star-o"></i></span>
+                                    <div class="pro-review">
+                                        <span>1 Reviews</span>
+                                    </div>
+                                </div>
+                                <div class="price-box">
+                                    <span class="price-regular">$70.00</span>
+                                    <span class="price-old"><del>$90.00</del></span>
+                                </div>
+                                <div class="availability">
+                                    <i class="fa fa-check-circle"></i>
+                                    <span>200 in stock</span>
+                                </div>
+                                <p class="pro-desc">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                                    eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+                                </p>
+                                <div class="quantity-cart-box d-flex align-items-center">
+                                    <h6 class="option-title">qty:</h6>
+                                    <div class="quantity">
+                                        <div class="pro-qty"><input type="text" value="1"></div>
+                                    </div>
+                                    <div class="action_link">
+                                        <a class="btn btn-cart2" href="#">Add to Cart</a>
+                                    </div>
+                                </div>
+                                <div class="useful-links">
+                                    <a href="#" data-toggle="tooltip" title="Compare">
+                                        <i class="pe-7s-refresh-2"></i>compare
+                                    </a>
+                                    <a href="#" data-toggle="tooltip" title="Wishlist">
+                                        <i class="pe-7s-like"></i>wishlist
+                                    </a>
+                                </div>
+                                <div class="like-icon">
+                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i>like</a>
+                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i>tweet</a>
+                                    <a class="pinterest" href="#"><i class="fa fa-pinterest"></i>save</a>
+                                    <a class="google" href="#"><i class="fa fa-google-plus"></i>share</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- product details inner end -->
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Shop.Models.Product>
+
+
+@{
+
+    ViewData["Title"] = "Index";
+}
+
+
+<table style="width: 70%; margin-left: auto; margin-right: auto; padding: 50px" class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@count</th>
+                <td>@item.ProductName</td>
+                <td>@item.OutPrice</td>
+                @{
+                    count++;
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
